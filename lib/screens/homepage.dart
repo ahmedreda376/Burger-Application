@@ -23,8 +23,6 @@ class _HomepageState extends State<Homepage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
 
-
-        
         backgroundColor: Color(0xffEF2A39),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
         child: Icon(Icons.add, color: Colors.white),
