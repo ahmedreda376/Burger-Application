@@ -24,41 +24,11 @@ class Screen1 extends StatelessWidget {
             ),
           ),
           const Text('Discover fresh and tasty burgers made with love.'),
-          SizedBox(height: 30,),
-          SmoothPageIndicator(
-            controller: controller,
-            count: 3,
-            effect: WormEffect(),
-          ),
+         
 
           const SizedBox(height: 125),
 
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: const Color(0xffEF2A39),
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    controller.nextPage(
-                      duration: Duration(seconds: 1),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.arrow_forward_ios_sharp,
-                    size: 25,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          
         ],
       ),
     );
