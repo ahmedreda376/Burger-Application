@@ -36,15 +36,15 @@ class Menu extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(child: Image.asset('$img', width: 120, fit: BoxFit.cover)),
+            Center(child: Image.asset(img, width: 120, fit: BoxFit.cover)),
             SizedBox(height: 5),
-            Text('$Burger_name'),
-            Text('$Burger_content'),
+            Text(Burger_name),
+            Text(Burger_content),
             SizedBox(height: 5),
             Row(
               children: [
                 Icon(Icons.star, color: Colors.amber),
-                Text('$Burger_rate'),
+                Text(Burger_rate),
                 Spacer(),
                 Icon(Icons.favorite_outline_sharp),
               ],

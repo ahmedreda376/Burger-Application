@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: AnimatedSplashScreen(
-        duration: 3000,
+        duration: 2000,
         splash: Image.asset('Images/burger.png', width: 150, height: 150),
         nextScreen: Splash(),
         splashTransition: SplashTransition.sizeTransition,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Onboarding%20Screens/mainscreen.dart';
 import 'package:flutter_application_1/screens/homepage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,14 +13,13 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 5), () {
-      Navigator.of(
-        context,
-      ).pushReplacement(MaterialPageRoute(builder: (context) => Homepage()));
-    });
     super.initState();
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const Mainscreen()),
+      );
+    });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -17,7 +17,7 @@ class Lists extends StatelessWidget {
         color: Colors.grey[300],
       ),
       child: Text(
-        '$Burger_Name',
+        Burger_Name,
         style: TextStyle(
           color: Color(0xff6A6A6A),
           fontSize: 12,
