@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Onboarding%20Screens/mainscreen.dart';
+import 'package:flutter_application_1/screens/homepage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -13,13 +15,26 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
-      // ignore: use_build_context_synchronously
+    checkLogin();
+  }
+
+  Future<void> checkLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool isLogged = prefs.getBool('isLoggedIn') ?? false;
+
+    await Future.delayed(const Duration(seconds: 3));
+
+    if (isLogged) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const Homepage()),
+      );
+    } else {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const Mainscreen()),
       );
-    });
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +71,7 @@ class _SplashState extends State<Splash> {
 
             Positioned(
               bottom: 0,
-              left: 180 - 35,
+              left: 180 - 50,
               child: Image.asset(
                 'Images/Splash2.png',
                 width: 130,

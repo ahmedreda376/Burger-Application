@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Login%20&%20Sginup%20/signup.dart';
 import 'package:flutter_application_1/Login%20&%20Sginup%20/welcome.dart';
 import 'package:flutter_application_1/Onboarding%20Screens/screen1.dart';
 import 'package:flutter_application_1/Onboarding%20Screens/screen2.dart';
 import 'package:flutter_application_1/Onboarding%20Screens/screen3.dart';
-import 'package:flutter_application_1/screens/homepage.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Mainscreen extends StatefulWidget {
@@ -26,9 +24,9 @@ class _MainscreenState extends State<Mainscreen> {
           PageView(
             onPageChanged: (index) {
               setState(() {
-                if(index == 2){
-                  onLastpage = !onLastpage ; 
-                };
+                if (index == 2) {
+                  onLastpage = !onLastpage;
+                }
               });
             },
             controller: _controller,
@@ -46,9 +44,7 @@ class _MainscreenState extends State<Mainscreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-
-
-                  //Skip Button 
+                  //Skip Button
                   TextButton(
                     onPressed: () {
                       _controller.animateToPage(
@@ -66,8 +62,7 @@ class _MainscreenState extends State<Mainscreen> {
                     effect: WormEffect(),
                   ),
 
-                    //Next & Done Buttons
-
+                  //Next & Done Buttons
                   onLastpage
                       ? TextButton(
                           onPressed: () {
@@ -77,14 +72,12 @@ class _MainscreenState extends State<Mainscreen> {
                                 builder: (context) => Welcome(),
                               ),
                             );
-                            
-                          
                           },
                           child: Text('Done'),
                         )
                       : TextButton(
                           onPressed: () {
-                             _controller.nextPage(
+                            _controller.nextPage(
                               duration: Duration(milliseconds: 600),
                               curve: Curves.easeIn,
                             );

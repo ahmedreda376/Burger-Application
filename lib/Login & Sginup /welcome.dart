@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Custom_login/customdivider.dart';
-import 'package:flutter_application_1/Custom_login/cutsom_login.dart';
+import 'package:flutter_application_1/screens/homepage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({super.key});
@@ -9,9 +10,33 @@ class Welcome extends StatefulWidget {
   State<Welcome> createState() => _WelcomeState();
 }
 
-bool ishidden = true;
-
 class _WelcomeState extends State<Welcome> {
+  //Controllers and state
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  bool ishidden = true;
+
+  //Login logic
+  Future<void> loginUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedEmail = prefs.getString('email');
+    final savedPassword = prefs.getString('password');
+
+    if (emailController.text == savedEmail &&
+        passwordController.text == savedPassword) {
+      await prefs.setBool('isLoggedIn', true);
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Homepage()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Email or Password is incorrect ❌')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +45,8 @@ class _WelcomeState extends State<Welcome> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          //Welcome
+          
           Text(
             'Welcome Back!',
             style: TextStyle(
@@ -35,15 +62,14 @@ class _WelcomeState extends State<Welcome> {
           Padding(
             padding: const EdgeInsets.all(20),
             child: TextField(
+              controller: emailController,
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 focusColor: Colors.white,
                 iconColor: Colors.white,
-                  fillColor: Colors.white,
-                            hintStyle: TextStyle(color: Colors.white),
+                fillColor: Colors.white,
+                hintStyle: TextStyle(color: Colors.white),
                 prefixIcon: Icon(Icons.email, color: Colors.white),
-              
-      
                 hintText: 'Email',
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.black),
@@ -53,10 +79,11 @@ class _WelcomeState extends State<Welcome> {
             ),
           ),
 
-          //Passwrod
+          //Password
           Padding(
             padding: const EdgeInsets.all(20),
             child: TextField(
+              controller: passwordController,
               style: TextStyle(color: Colors.white),
               obscureText: ishidden,
               decoration: InputDecoration(
@@ -76,8 +103,7 @@ class _WelcomeState extends State<Welcome> {
                   color: Colors.white,
                 ),
                 prefixIcon: Icon(Icons.lock, color: Colors.white),
-                hintText: 'Passwrod',
-                
+                hintText: 'Password',
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.black),
                   borderRadius: BorderRadius.circular(15),
@@ -85,9 +111,39 @@ class _WelcomeState extends State<Welcome> {
               ),
             ),
           ),
-          CutsomLogin(),
-          Customdivider()
-        
+
+          //Login Button
+        Padding(
+          padding: const EdgeInsets.all(15),
+          child: SizedBox(
+              width: double.infinity,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(
+                  15,
+                ),
+                onTap: loginUser, // لما تضغط
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Color(0xff2B8761),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Text(
+                    'Login',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ),
+
+          //Custom Divider
+          Customdivider(),
         ],
       ),
     );

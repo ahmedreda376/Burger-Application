@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:flutter_application_1/screens/homepage.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 class Screen3 extends StatelessWidget {
   final PageController controller;
   const Screen3({super.key, required this.controller});

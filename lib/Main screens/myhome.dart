@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Login%20&%20Sginup%20/welcome.dart';
 import 'package:flutter_application_1/custom/lists.dart';
 import 'package:flutter_application_1/custom/menu.dart';
 import 'package:flutter_application_1/custom/search.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class ItsHomePage extends StatelessWidget {
@@ -14,6 +16,21 @@ class ItsHomePage extends StatelessWidget {
       body: SingleChildScrollView(
           child: Column(
             children: [
+
+              //Logout Button
+              ElevatedButton(
+              onPressed: () async {
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.setBool('isLoggedIn', false);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Welcome(),
+                  ), // Login / Onboarding
+                );
+              },
+              child: const Text('Logout'),
+            ),
               //Appbar
               Padding(
                 padding: const EdgeInsets.all(14),
