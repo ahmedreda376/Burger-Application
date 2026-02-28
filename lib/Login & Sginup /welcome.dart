@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Custom_login/customdivider.dart';
+import 'package:flutter_application_1/Login%20&%20Sginup%20/signup.dart';
 import 'package:flutter_application_1/screens/homepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,6 +18,7 @@ class _WelcomeState extends State<Welcome> {
   bool ishidden = true;
 
   //Login logic
+
   Future<void> loginUser() async {
     final prefs = await SharedPreferences.getInstance();
     final savedEmail = prefs.getString('email');
@@ -46,7 +48,6 @@ class _WelcomeState extends State<Welcome> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           //Welcome
-          
           Text(
             'Welcome Back!',
             style: TextStyle(
@@ -113,14 +114,12 @@ class _WelcomeState extends State<Welcome> {
           ),
 
           //Login Button
-        Padding(
-          padding: const EdgeInsets.all(15),
-          child: SizedBox(
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: SizedBox(
               width: double.infinity,
               child: InkWell(
-                borderRadius: BorderRadius.circular(
-                  15,
-                ),
+                borderRadius: BorderRadius.circular(15),
                 onTap: loginUser, // لما تضغط
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 10),
@@ -140,10 +139,47 @@ class _WelcomeState extends State<Welcome> {
                 ),
               ),
             ),
-        ),
+          ),
 
           //Custom Divider
           Customdivider(),
+
+          //Sign ip Button
+          SizedBox(
+            width: double.infinity,
+            child: InkWell(
+              splashColor: Colors.transparent,
+              focusColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Signup()),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(13),
+                child: Container(
+                  padding: EdgeInsets.all(3),
+                  alignment: Alignment(0, 0),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Color(0xff0f1b2d),
+                  ),
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 25,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

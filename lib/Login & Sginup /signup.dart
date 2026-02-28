@@ -12,12 +12,21 @@ class Signup extends StatefulWidget {
 class _SignupState extends State<Signup> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  
+  final first_name_controller = TextEditingController();
+  final last_name_controller = TextEditingController();
+
   bool ishidden = true;
+
+  //Sign up Logic
 
   Future<void> saveUser() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('email', emailController.text);
     await prefs.setString('password', passwordController.text);
+    await prefs.setString('firstname', first_name_controller.text);
+    await prefs.setString('lastname', last_name_controller.text);
 
     ScaffoldMessenger.of(
       context,
@@ -71,7 +80,6 @@ class _SignupState extends State<Signup> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       //First Name Title
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 30),
@@ -80,11 +88,12 @@ class _SignupState extends State<Signup> {
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
-                      
+
                       //First Name Field
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: TextField(
+                          controller: first_name_controller,
                           style: TextStyle(color: Colors.white),
                           decoration: InputDecoration(
                             focusColor: Colors.white,
@@ -113,10 +122,11 @@ class _SignupState extends State<Signup> {
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
-                     //First Name Field
+                      //Last Name Field
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: TextField(
+                          controller: last_name_controller,
                           style: TextStyle(color: Colors.white),
                           decoration: InputDecoration(
                             focusColor: Colors.white,
@@ -209,8 +219,8 @@ class _SignupState extends State<Signup> {
                 style: TextStyle(color: Colors.white),
               ),
             ),
-           
-           //Confirm Passwrod Filed
+
+            //Confirm Passwrod Filed
             Padding(
               padding: const EdgeInsets.all(20),
               child: TextField(
@@ -242,24 +252,32 @@ class _SignupState extends State<Signup> {
             ),
 
             //Create Account Button
-            Container(
-              margin: EdgeInsets.all(15),
-              alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            SizedBox(
               width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Color(0xff2B8761),
-              ),
-              child: TextButton(
-                onPressed: () {
+
+              child: InkWell(
+                splashColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: () {
                   saveUser();
                 },
-                child: Text(
-                  'Craete Account',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
+                child: Container(
+                  margin: EdgeInsets.all(15),
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Color(0xff2B8761),
+                  ),
+                  child: Text(
+                    'Craete Account',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),

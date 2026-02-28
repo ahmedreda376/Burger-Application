@@ -7,23 +7,18 @@ class Customdivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            child: Container(width: 120, height: 1, color: Colors.white),
+            child: Container(width: 200, height: 1, color: Colors.white),
           ),
           Padding(
-            padding: const EdgeInsets.all(4),
-            child: TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Signup()),
-                );
-              },
-              child: Text('Or Sign Up', style: TextStyle(color: Colors.white)),
+            padding: const EdgeInsets.all(10),
+            child: Text(
+              'Don\'t have an account?',
+              style: TextStyle(color: Color(0xffbfc7d5), fontSize: 15),
             ),
           ),
           Expanded(
