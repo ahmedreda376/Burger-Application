@@ -10,23 +10,29 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  // Keys for each Form
+  GlobalKey<FormState> formKeyFirstName = GlobalKey<FormState>();
+  GlobalKey<FormState> formKeyLastName = GlobalKey<FormState>();
+  GlobalKey<FormState> formKeyEmail = GlobalKey<FormState>();
+  GlobalKey<FormState> formKeyPassword = GlobalKey<FormState>();
+  GlobalKey<FormState> formKeyConfirmPassword = GlobalKey<FormState>();
 
-  
+  // Controllers
   final first_name_controller = TextEditingController();
   final last_name_controller = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   bool ishidden = true;
 
-  //Sign up Logic
-
+  // Sign up logic
   Future<void> saveUser() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('email', emailController.text);
-    await prefs.setString('password', passwordController.text);
     await prefs.setString('firstname', first_name_controller.text);
     await prefs.setString('lastname', last_name_controller.text);
+    await prefs.setString('email', emailController.text);
+    await prefs.setString('password', passwordController.text);
 
     ScaffoldMessenger.of(
       context,
@@ -38,18 +44,15 @@ class _SignupState extends State<Signup> {
     );
   }
 
-  @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff1f2933),
 
-      //Appbar
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
           icon: Padding(
             padding: const EdgeInsets.all(25),
             child: Icon(Icons.arrow_back_ios, color: Colors.white),
@@ -59,7 +62,7 @@ class _SignupState extends State<Signup> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //Login text
+            // Title
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(35),
@@ -73,7 +76,8 @@ class _SignupState extends State<Signup> {
                 ),
               ),
             ),
-            //First And Last Names
+
+            // First & Last Names Row
             Row(
               children: [
                 Expanded(
@@ -90,19 +94,28 @@ class _SignupState extends State<Signup> {
                       ),
 
                       //First Name Field
-                      Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: TextField(
-                          controller: first_name_controller,
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            focusColor: Colors.white,
-                            iconColor: Colors.white,
-                            fillColor: Colors.white,
-                            hintStyle: TextStyle(color: Colors.white),
-                            hintText: 'John',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
+                      Form(
+                        key: formKeyFirstName,
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: TextFormField(
+                            controller: first_name_controller,
+                            keyboardType: TextInputType.name,
+                            cursorColor: Colors.white,
+                            style: TextStyle(color: Colors.white),
+                            validator: (value) {
+                              if (value == null || value.isEmpty)
+                                return 'Please Fill This Field';
+                              if (value.length < 3)
+                                return 'Name must be at least 3 characters';
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'John',
+                              hintStyle: TextStyle(color: Colors.white),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
                             ),
                           ),
                         ),
@@ -122,20 +135,28 @@ class _SignupState extends State<Signup> {
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
+
                       //Last Name Field
-                      Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: TextField(
-                          controller: last_name_controller,
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            focusColor: Colors.white,
-                            iconColor: Colors.white,
-                            fillColor: Colors.white,
-                            hintStyle: TextStyle(color: Colors.white),
-                            hintText: 'Doe',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
+                      Form(
+                        key: formKeyLastName,
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: TextFormField(
+                            controller: last_name_controller,
+                            style: TextStyle(color: Colors.white),
+                            validator: (value) {
+                              if (value == null || value.isEmpty)
+                                return 'Please Fill This Field';
+                              if (value.length < 3)
+                                return 'Last Name must be at least 3 characters';
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'Doe',
+                              hintStyle: TextStyle(color: Colors.white),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
                             ),
                           ),
                         ),
@@ -146,134 +167,167 @@ class _SignupState extends State<Signup> {
               ],
             ),
 
-            //Email title
+            // Email Title
             Container(
               padding: EdgeInsets.symmetric(horizontal: 30),
               alignment: Alignment.topLeft,
               child: Text('Email : ', style: TextStyle(color: Colors.white)),
             ),
 
-            //Email Textfield
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: TextField(
-                controller: emailController,
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  focusColor: Colors.white,
-                  iconColor: Colors.white,
-                  fillColor: Colors.white,
-                  hintStyle: TextStyle(color: Colors.white),
-                  hintText: 'Enter Your Email',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                    borderRadius: BorderRadius.circular(15),
+            // Email Field
+            Form(
+              key: formKeyEmail,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: TextFormField(
+                  controller: emailController,
+                  style: TextStyle(color: Colors.white),
+                  validator: (value) {
+                    if (value == null || value.isEmpty)
+                      return 'Please Fill This Field';
+                    if (!RegExp(
+                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                    ).hasMatch(value))
+                      return 'Enter a valid email';
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Enter Your Email',
+                    hintStyle: TextStyle(color: Colors.white),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                   ),
                 ),
               ),
             ),
+
+            // Password Title
             Container(
               padding: EdgeInsets.symmetric(horizontal: 30),
               alignment: Alignment.topLeft,
-              child: Text('Passwrod : ', style: TextStyle(color: Colors.white)),
+              child: Text('Password : ', style: TextStyle(color: Colors.white)),
             ),
 
-            //Paswword Textfield
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: TextField(
-                controller: passwordController,
-                style: TextStyle(color: Colors.white),
-                obscureText: ishidden,
-                decoration: InputDecoration(
-                  focusColor: Colors.white,
-                  iconColor: Colors.white,
-                  fillColor: Colors.white,
-                  hintStyle: TextStyle(color: Colors.white),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        ishidden = !ishidden;
-                      });
-                    },
-                    icon: Icon(
-                      ishidden ? Icons.visibility_off : Icons.visibility,
+            // Password Field
+            Form(
+              key: formKeyPassword,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: TextFormField(
+                  controller: passwordController,
+                  obscureText: ishidden,
+                  style: TextStyle(color: Colors.white),
+                  validator: (value) {
+                    if (value == null || value.isEmpty)
+                      return 'Please Fill This Field';
+                    if (value.length < 6)
+                      return 'Password must be at least 6 characters';
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Enter Your Password',
+                    hintStyle: TextStyle(color: Colors.white),
+                    suffixIcon: IconButton(
+                      onPressed: () => setState(() => ishidden = !ishidden),
+                      icon: Icon(
+                        ishidden ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.white,
+                      ),
                     ),
-                    color: Colors.white,
-                  ),
-
-                  hintText: 'Enter Your Passwrod',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                    borderRadius: BorderRadius.circular(15),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                   ),
                 ),
               ),
             ),
-            //Confirm Passwrod Title
+
+            // Confirm Password Title
             Container(
               padding: EdgeInsets.symmetric(horizontal: 30),
               alignment: Alignment.topLeft,
               child: Text(
-                'Confirm Passwrod : ',
+                'Confirm Password : ',
                 style: TextStyle(color: Colors.white),
               ),
             ),
 
-            //Confirm Passwrod Filed
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: TextField(
-                style: TextStyle(color: Colors.white),
-                obscureText: ishidden,
-                decoration: InputDecoration(
-                  focusColor: Colors.white,
-                  iconColor: Colors.white,
-                  fillColor: Colors.white,
-                  hintStyle: TextStyle(color: Colors.white),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        ishidden = !ishidden;
-                      });
-                    },
-                    icon: Icon(
-                      ishidden ? Icons.visibility_off : Icons.visibility,
+            // Confirm Password Field
+            Form(
+              key: formKeyConfirmPassword,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: TextFormField(
+                  controller: confirmPasswordController,
+                  obscureText: ishidden,
+                  style: TextStyle(color: Colors.white),
+                  validator: (value) {
+                    if (value == null || value.isEmpty)
+                      return 'Please Fill This Field';
+                    if (value != passwordController.text)
+                      return 'Passwords do not match';
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Confirm Your Password',
+                    hintStyle: TextStyle(color: Colors.white),
+                    suffixIcon: IconButton(
+                      onPressed: () => setState(() => ishidden = !ishidden),
+                      icon: Icon(
+                        ishidden ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.white,
+                      ),
                     ),
-                    color: Colors.white,
-                  ),
-                  hintText: 'Confirm You Passwrod',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                    borderRadius: BorderRadius.circular(15),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                   ),
                 ),
               ),
             ),
 
-            //Create Account Button
+            // Create Account Button
             SizedBox(
               width: double.infinity,
-
               child: InkWell(
                 splashColor: Colors.transparent,
                 focusColor: Colors.transparent,
                 hoverColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onTap: () {
-                  saveUser();
+                  bool validFirst = formKeyFirstName.currentState!.validate();
+                  bool validLast = formKeyLastName.currentState!.validate();
+                  bool validEmail = formKeyEmail.currentState!.validate();
+                  bool validPass = formKeyPassword.currentState!.validate();
+                  bool validConfirm = formKeyConfirmPassword.currentState!.validate();
+
+                  if (validFirst &&
+                      validLast &&
+                      validEmail &&
+                      validPass &&
+                      validConfirm) {
+                    saveUser();
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Please fill all required fields correctly',
+                        ),
+                      ),
+                    );
+                  }
                 },
                 child: Container(
                   margin: EdgeInsets.all(15),
                   alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     color: Color(0xff2B8761),
                   ),
                   child: Text(
-                    'Craete Account',
+                    'Create Account',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,

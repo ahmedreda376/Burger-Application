@@ -29,7 +29,7 @@ class _ItsHomePageState extends State<ItsHomePage> {
     final first_name = prefs.getString('firstname');
     final last_name = prefs.getString('lastname');
     setState(() {
-      full_name = '$first_name' + '$last_name';
+      full_name = '$first_name' + ' $last_name';
     });
   }
 

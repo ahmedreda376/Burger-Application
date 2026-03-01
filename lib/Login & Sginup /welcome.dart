@@ -12,6 +12,11 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
+  //Forms
+
+  GlobalKey<FormState> email_form = GlobalKey<FormState>();
+  GlobalKey<FormState> password_form = GlobalKey<FormState>();
+
   //Controllers and state
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -60,56 +65,76 @@ class _WelcomeState extends State<Welcome> {
           SizedBox(height: 10),
 
           //Email
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: TextField(
-              controller: emailController,
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                focusColor: Colors.white,
-                iconColor: Colors.white,
-                fillColor: Colors.white,
-                hintStyle: TextStyle(color: Colors.white),
-                prefixIcon: Icon(Icons.email, color: Colors.white),
-                hintText: 'Email',
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black),
-                  borderRadius: BorderRadius.circular(15),
+          Form(
+            key: email_form,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please Fill This Field';
+                  } else {
+                    return null;
+                  }
+                },
+                controller: emailController,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  focusColor: Colors.white,
+                  iconColor: Colors.white,
+                  fillColor: Colors.white,
+                  hintStyle: TextStyle(color: Colors.white),
+                  prefixIcon: Icon(Icons.email, color: Colors.white),
+                  hintText: 'Email',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                 ),
               ),
             ),
           ),
 
           //Password
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: TextField(
-              controller: passwordController,
-              style: TextStyle(color: Colors.white),
-              obscureText: ishidden,
-              decoration: InputDecoration(
-                focusColor: Colors.white,
-                iconColor: Colors.white,
-                fillColor: Colors.white,
-                hintStyle: TextStyle(color: Colors.white),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      ishidden = !ishidden;
-                    });
-                  },
-                  icon: Icon(
-                    ishidden ? Icons.visibility_off : Icons.visibility,
+          Form(
+            key: password_form,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: TextFormField(
+                  validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please Fill This Field';
+                  } else {
+                    return null;
+                  }
+                },
+                 controller: passwordController,
+                style: TextStyle(color: Colors.white),
+                obscureText: ishidden,
+                decoration: InputDecoration(
+                  focusColor: Colors.white,
+                  iconColor: Colors.white,
+                  fillColor: Colors.white,
+                  hintStyle: TextStyle(color: Colors.white),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        ishidden = !ishidden;
+                      });
+                    },
+                    icon: Icon(
+                      ishidden ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    color: Colors.white,
                   ),
-                  color: Colors.white,
+                  prefixIcon: Icon(Icons.lock, color: Colors.white),
+                  hintText: 'Password',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                 ),
-                prefixIcon: Icon(Icons.lock, color: Colors.white),
-                hintText: 'Password',
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
+              )
             ),
           ),
 
@@ -120,7 +145,22 @@ class _WelcomeState extends State<Welcome> {
               width: double.infinity,
               child: InkWell(
                 borderRadius: BorderRadius.circular(15),
-                onTap: loginUser, // لما تضغط
+                onTap: () {
+                  bool email_formfield = email_form.currentState!.validate();
+                  bool password_fromfield = password_form.currentState!
+                      .validate();
+                  if (email_formfield && password_fromfield) {
+                    loginUser();
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Please fill all required fields correctly',
+                        ),
+                      ),
+                    );
+                  }
+                },
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 10),
                   alignment: Alignment.center,
@@ -144,7 +184,7 @@ class _WelcomeState extends State<Welcome> {
           //Custom Divider
           Customdivider(),
 
-          //Sign ip Button
+          //Sign up Button
           SizedBox(
             width: double.infinity,
             child: InkWell(
